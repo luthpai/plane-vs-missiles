@@ -16,6 +16,12 @@ from pygame.locals import (
 pygame.mixer.init()
 pygame.init()
 
+print("""
+Hello! You are now playing Planes vs Missiles.
+Dont forget to star the repository :D https://github.com/luthpai/plane-vs-missiles
+Thanks for playing!
+""")
+
 SCREEN_WIDTH = 860
 SCREEN_HEIGHT = 640
 
@@ -184,6 +190,12 @@ def play():
                 new_cloud = Cloud()
                 clouds.add(new_cloud)
                 all_sprites.add(new_cloud)
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_F1:
+                    if pygame.mixer.music.get_busy():
+                        pygame.mixer.music.pause()
+                    else:
+                        pygame.mixer.music.unpause()
 
         score += 5
 
@@ -220,7 +232,6 @@ def play():
         if collide and not collided_in_previous_frame:
             collide_sound.play()
             player.lives -= 1
-            print(player.lives)
 
         collided_in_previous_frame = collide
 
@@ -247,7 +258,7 @@ def play():
 
 
 def menu():
-    pygame.display.set_caption("Plane vs Missiles : Menu")
+    pygame.display.set_caption("Plane vs Missiles")
 
     while True:
         screen.fill("#87CEEB")
@@ -267,6 +278,9 @@ def menu():
 
         info = get_font(40).render(f"Press space to play", True, "#004764")
         info_rect = info.get_rect(center=(SCREEN_WIDTH / 2, 400))
+
+        info2 = get_font(25).render(f"Press F1 to toggle the music", True, "#004764")
+        info_rect2 = info.get_rect(center=(10 + SCREEN_WIDTH / 2, 445))
 
         PLAY_BUTTON = Button(
             image=pygame.image.load("./assets/rect.png"),
@@ -288,6 +302,7 @@ def menu():
         screen.blit(MENU_TEXT, MENU_RECT)
         screen.blit(highscore_text, highscore_text_rect)
         screen.blit(info, info_rect)
+        screen.blit(info2, info_rect2)
 
         for button in [PLAY_BUTTON, QUIT_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
@@ -306,6 +321,11 @@ def menu():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     play()
+                if event.key == pygame.K_F1:
+                    if pygame.mixer.music.get_busy():
+                        pygame.mixer.music.pause()
+                    else:
+                        pygame.mixer.music.unpause()
 
         pygame.display.flip()
 
