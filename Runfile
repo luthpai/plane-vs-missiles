@@ -1,0 +1,5 @@
+play:
+  python main.py
+
+reset:
+  rm ./.data/highscore.yml && touch ./.data/highscore.yml && echo "score: 0" >> ./.data/highscore.yml
